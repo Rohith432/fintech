@@ -2,8 +2,16 @@ import React from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import { useDashboard } from './useDashboard';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/types';
 
-const DashboardScreen = () => {
+type DashboardScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
+
+type Props = {
+  navigation: DashboardScreenNavigationProp;
+};
+
+const DashboardScreen = ({ navigation }: Props) => {
   const { data } = useDashboard();
 
   const renderTransactionItem = ({ item }) => (
@@ -66,12 +74,12 @@ const DashboardScreen = () => {
       <View style={styles.card}>
         <View style={styles.cardHeader}>
           <Text style={styles.cardTitle}>{data.activeLoans}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Loans')}>
             <Text style={styles.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
         {data.loans.map(item => (
-          <View key={item.id} style={styles.loanItem}>
+          <TouchableOpacity key={item.id} style={styles.loanItem} onPress={() => navigation.navigate('LoanDetails', { loanId: item.id })}>
             <View style={styles.loanIconContainer}>
                 <Text style={styles.iconPlaceholder}>home</Text>
             </View>
@@ -80,7 +88,7 @@ const DashboardScreen = () => {
                 <Text style={styles.loanDueDate}>{item.due}</Text>
             </View>
             <Text style={styles.loanAmount}>{item.amount}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
 

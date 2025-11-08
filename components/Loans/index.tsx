@@ -2,12 +2,20 @@ import React from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from './styles';
 import { useLoans } from './useLoans';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/types';
 
-const LoansScreen = () => {
+type LoansScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Loans'>;
+
+type Props = {
+  navigation: LoansScreenNavigationProp;
+};
+
+const LoansScreen = ({ navigation }: Props) => {
   const { data, getStatusStyle } = useLoans();
 
   const renderLoanItem = ({ item }) => (
-    <View style={styles.loanCard}>
+    <TouchableOpacity style={styles.loanCard} onPress={() => navigation.navigate('LoanDetails', { loanId: item.id })}>
       <View style={styles.cardHeader}>
         <View>
           <Text style={styles.borrowerName}>{item.name}</Text>
@@ -39,14 +47,17 @@ const LoansScreen = () => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.iconPlaceholder}>arrow_back</Text>
+        </TouchableOpacity>
         <Text style={styles.title}>{data.title}</Text>
-        <TouchableOpacity style={styles.newLoanButton}>
+        <TouchableOpacity style={styles.newLoanButton} onPress={() => navigation.navigate('EditLoan', { loanId: 'new' })}>
           <Text style={styles.iconPlaceholder}>add</Text>
           <Text style={styles.newLoanButtonText}>Record New Loan</Text>
         </TouchableOpacity>

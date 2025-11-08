@@ -2,8 +2,20 @@ import React from 'react';
 import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import { useEditLoan } from './useEditLoan';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../../navigation/types';
 
-const EditLoanScreen = () => {
+type EditLoanScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'EditLoan'>;
+type EditLoanScreenRouteProp = RouteProp<RootStackParamList, 'EditLoan'>;
+
+type Props = {
+  navigation: EditLoanScreenNavigationProp;
+  route: EditLoanScreenRouteProp;
+};
+
+const EditLoanScreen = ({ navigation, route }: Props) => {
+  const { loanId } = route.params;
   const { data } = useEditLoan();
 
   const LabeledInput = ({ label, value, placeholder, multiline, numberOfLines }) => (
@@ -23,14 +35,14 @@ const EditLoanScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.iconPlaceholder}>arrow_back</Text>
         </TouchableOpacity>
         <View>
           <Text style={styles.headerSubtitle}>{data.title}</Text>
           <Text style={styles.headerTitle}>{data.borrowerName}</Text>
         </View>
-        <TouchableOpacity style={styles.saveButton}>
+        <TouchableOpacity style={styles.saveButton} onPress={() => navigation.goBack()}>
           <Text style={styles.iconPlaceholder}>save</Text>
           <Text style={styles.saveButtonText}>Save</Text>
         </TouchableOpacity>
