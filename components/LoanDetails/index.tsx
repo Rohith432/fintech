@@ -1,7 +1,10 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, FlatList, Modal } from 'react-native';
 import { styles } from './styles';
 import { useLoanDetails } from './useLoanDetails';
+import RecordPaymentModal from './modals/RecordPaymentModal';
+import HaltInterestModal from './modals/HaltInterestModal';
+import SettleLoanModal from './modals/SettleLoanModal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../navigation/types';
@@ -17,6 +20,9 @@ type Props = {
 const LoanDetailsScreen = ({ navigation, route }: Props) => {
   const { loanId } = route.params;
   const { data } = useLoanDetails();
+  const [isRecordPaymentVisible, setRecordPaymentVisible] = useState(false);
+  const [isHaltInterestVisible, setHaltInterestVisible] = useState(false);
+  const [isSettleLoanVisible, setSettleLoanVisible] = useState(false);
 
   const renderHistoryItem = ({ item }) => (
     <View style={styles.historyListItem}>
@@ -41,6 +47,7 @@ const LoanDetailsScreen = ({ navigation, route }: Props) => {
   );
 
   return (
+    <>
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -149,11 +156,11 @@ const LoanDetailsScreen = ({ navigation, route }: Props) => {
         </View>
 
         <View style={styles.actionButtonsContainer}>
-            <TouchableOpacity style={[styles.button, styles.redButton]}>
+            <TouchableOpacity style={[styles.button, styles.redButton]} onPress={() => setHaltInterestVisible(true)}>
                 <Text style={styles.iconPlaceholder}>block</Text>
                 <Text style={styles.buttonText}>Stop Interest Calculations</Text>
             </TouchableOpacity>
-             <TouchableOpacity style={[styles.button, styles.primaryButton]}>
+             <TouchableOpacity style={[styles.button, styles.primaryButton]} onPress={() => setRecordPaymentVisible(true)}>
                 <Text style={styles.iconPlaceholder}>add_card</Text>
                 <Text style={styles.buttonText}>Record Payment</Text>
             </TouchableOpacity>
@@ -162,13 +169,38 @@ const LoanDetailsScreen = ({ navigation, route }: Props) => {
                     <Text style={styles.iconPlaceholder}>notifications</Text>
                     <Text style={[styles.buttonText, { color: '#135bec' }]}>Send Reminder</Text>
                 </TouchableOpacity>
-                 <TouchableOpacity style={[styles.button, styles.tertiaryButton, { flex: 1 }]}>
+                 <TouchableOpacity style={[styles.button, styles.tertiaryButton, { flex: 1 }]} onPress={() => setSettleLoanVisible(true)}>
                     <Text style={styles.iconPlaceholder}>check_circle</Text>
                     <Text style={[styles.buttonText, { color: '#94A3B8' }]}>Mark as Settled</Text>
                 </TouchableOpacity>
             </View>
         </View>
     </ScrollView>
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isRecordPaymentVisible}
+        onRequestClose={() => setRecordPaymentVisible(false)}
+    >
+        <RecordPaymentModal visible={isRecordPaymentVisible} onClose={() => setRecordPaymentVisible(false)} />
+    </Modal>
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isHaltInterestVisible}
+        onRequestClose={() => setHaltInterestVisible(false)}
+    >
+        <HaltInterestModal visible={isHaltInterestVisible} onClose={() => setHaltInterestVisible(false)} />
+    </Modal>
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isSettleLoanVisible}
+        onRequestClose={() => setSettleLoanVisible(false)}
+    >
+        <SettleLoanModal visible={isSettleLoanVisible} onClose={() => setSettleLoanVisible(false)} />
+    </Modal>
+    </>
   );
 };
 
