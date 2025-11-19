@@ -16,6 +16,7 @@ import SettingsScreen from './components/Settings';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 const Stack = createNativeStackNavigator<LoansStackParamList>();
+import RecordNewLoanScreen from './components/RecordNewLoan';
 
 const LoansStack = () => (
   <Stack.Navigator
@@ -74,6 +75,12 @@ const App = () => {
         <Tab.Screen name="Loans" component={LoansStack} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="Loans" component={LoansScreen} />
+        <Stack.Screen name="LoanDetails" component={LoanDetailsScreen} />
+        <Stack.Screen name="EditLoan" component={EditLoanScreen} />
+        <Stack.Screen name="RecordNewLoan" component={RecordNewLoanScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

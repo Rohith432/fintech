@@ -4,6 +4,7 @@ export type LoansStackParamList = {
   LoansList: undefined;
   LoanDetails: { loanId: string };
   EditLoan: { loanId: string };
+  RecordNewLoan: undefined;
 };
 
 export type RootTabParamList = {
