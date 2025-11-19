@@ -57,7 +57,7 @@ const LoansScreen = ({ navigation }: Props) => {
             <Text style={styles.iconPlaceholder}>arrow_back</Text>
         </TouchableOpacity>
         <Text style={styles.title}>{data.title}</Text>
-        <TouchableOpacity style={styles.newLoanButton} onPress={() => navigation.navigate('EditLoan', { loanId: 'new' })}>
+        <TouchableOpacity style={styles.newLoanButton} onPress={() => navigation.navigate('RecordNewLoan')}>
           <Text style={styles.iconPlaceholder}>add</Text>
           <Text style={styles.newLoanButtonText}>Record New Loan</Text>
         </TouchableOpacity>
