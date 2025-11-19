@@ -7,6 +7,7 @@ import DashboardScreen from './components/Dashboard';
 import LoansScreen from './components/Loans';
 import LoanDetailsScreen from './components/LoanDetails';
 import EditLoanScreen from './components/EditLoan';
+import RecordNewLoanScreen from './components/RecordNewLoan';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,6 +25,7 @@ const App = () => {
         <Stack.Screen name="Loans" component={LoansScreen} />
         <Stack.Screen name="LoanDetails" component={LoanDetailsScreen} />
         <Stack.Screen name="EditLoan" component={EditLoanScreen} />
+        <Stack.Screen name="RecordNewLoan" component={RecordNewLoanScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
